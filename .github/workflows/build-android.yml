@@ -1,9 +1,5 @@
 name: Build Android APK
 
-# Builds a real, downloadable, installable Android app (.apk) automatically —
-# no Android Studio needed on your machine. Runs on GitHub's free cloud runners.
-# Trigger it manually from the "Actions" tab (Run workflow), or it runs
-# automatically on every push to main.
 on:
   push:
     branches: [ main ]
@@ -25,23 +21,27 @@ jobs:
           java-version: 17
 
       - name: Install Capacitor
+        working-directory: quiz
         run: npm install
 
       - name: Add Android platform
+        working-directory: quiz
         run: npx cap add android
 
       - name: Sync web assets into the Android project
+        working-directory: quiz
         run: npx cap sync android
 
       - name: Make gradlew executable
-        run: chmod +x android/gradlew
+        working-directory: quiz/android
+        run: chmod +x gradlew
 
       - name: Build debug APK
-        working-directory: android
+        working-directory: quiz/android
         run: ./gradlew assembleDebug
 
       - name: Upload .apk artifact
         uses: actions/upload-artifact@v4
         with:
           name: AI-Quiz-Pro-Android
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: quiz/android/app/build/outputs/apk/debug/app-debug.apk

@@ -1,9 +1,5 @@
 name: Build Windows EXE
 
-# Builds a real, downloadable Windows installer (.exe) automatically —
-# no local install needed. Runs on GitHub's free cloud runners.
-# Trigger it manually from the "Actions" tab (Run workflow), or it runs
-# automatically on every push to main.
 on:
   push:
     branches: [ main ]
@@ -20,15 +16,15 @@ jobs:
           node-version: 20
 
       - name: Install Electron deps
-        working-directory: electron
+        working-directory: quiz/electron
         run: npm install
 
       - name: Build .exe
-        working-directory: electron
+        working-directory: quiz/electron
         run: npm run dist
 
       - name: Upload .exe artifact
         uses: actions/upload-artifact@v4
         with:
           name: AI-Quiz-Pro-Windows
-          path: electron/dist/*.exe
+          path: quiz/electron/dist/*.exe
