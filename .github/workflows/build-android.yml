@@ -24,6 +24,12 @@ jobs:
         working-directory: quiz
         run: npm install
 
+      - name: Prepare webDir folder
+        working-directory: quiz
+        run: |
+          mkdir -p www
+          cp -r index.html *.js *.css assets www/ 2>/dev/null || true
+
       - name: Add Android platform
         working-directory: quiz
         run: npx cap add android
